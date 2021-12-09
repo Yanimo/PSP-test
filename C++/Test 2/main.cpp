@@ -2,6 +2,9 @@
 #include <pspdebug.h>
 #include <pspdisplay.h>
 #include <pspctrl.h>  
+#include <fstream>
+#include <iostream>
+#include <string>
 
 // PSP kernel module info
 PSP_MODULE_INFO("Test2", 0, 1, 0 );
@@ -38,35 +41,17 @@ int setupCallbacks() {
 //main program
 auto main() -> int{
     setupCallbacks(); //Menu Button or exit button
+     
+     /* start of creating a file called test.txt*/
+    std::ofstream file("test.txt");
+    file << "Hello PSP!" << std::endl;
+    file.close();
     
-    pspDebugScreenInit();   //shows debug screen
-   
-    //Controller support for full range
-    sceCtrlSetSamplingCycle(0);
-    sceCtrlSetSamplingMode(PSP_CTRL_MODE_ANALOG);
-
-    SceCtrlData ctrlData;
-
-    
-    while (1){
-
-        sceCtrlReadBufferPositive(&ctrlData, 1);    //polls for data
-
-        if(ctrlData.Buttons & PSP_CTRL_CROSS){
-            pspDebugScreenPrintf("Cross Pressed!\n");
-        }
-        
-        if(ctrlData.Buttons & PSP_CTRL_CIRCLE){
-            pspDebugScreenPrintf("Circle Pressed!\n");
-        }
-        
-        if(ctrlData.Buttons & PSP_CTRL_SQUARE){
-            pspDebugScreenPrintf("Square Pressed!\n");
-        }
-        
-        if(ctrlData.Buttons & PSP_CTRL_TRIANGLE){
-            pspDebugScreenPrintf("Triangle Pressed!\n");
-        }
-
-    }
+    std::ifstream file2("test.txt");
+    std::string str;
+    std::getline(file2, str);
+    file2.close();
+    /**/
+    pspDebugScreenInit();
+    pspDebugScreenPrintf(str.c_str()); //print onto Debug screen
 }

@@ -1,0 +1,2 @@
+C:/pspsdk/psp/include/**
+C:/pspsdk/psp/sdk/include/**
